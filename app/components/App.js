@@ -5,12 +5,13 @@ import {
   Text,
   View
 } from 'react-native';
+import Maps from './Maps';
 
 class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>NativeMaps</Text>
+        <Maps />
       </View>
     );
   }
@@ -18,10 +19,13 @@ class App extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
 });
 
