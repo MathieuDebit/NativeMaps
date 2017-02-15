@@ -8,6 +8,8 @@ React Native playground with Google Maps.
 git clone git@github.com:MathieuDebit/NativeMaps.git
 cd NativeMaps
 npm install
+
+cd ios/ && pod install
 ```
 
 Make sure that React Native for iOS and Android is correctly configured:
