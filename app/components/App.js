@@ -6,12 +6,14 @@ import {
   View
 } from 'react-native';
 import Maps from './Maps';
+import Library from './Library';
 
 class App extends Component {
   render() {
     return (
       <View style={styles.container}>
         <Maps />
+        <Library />
       </View>
     );
   }
