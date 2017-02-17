@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import Maps from './Maps';
 import User from './User';
+import Record from './Record';
 import Library from './Library';
 
 class App extends Component {
@@ -15,6 +16,7 @@ class App extends Component {
       <View style={styles.container}>
         <Maps />
         <User />
+        <Record />
         <Library />
       </View>
     );
