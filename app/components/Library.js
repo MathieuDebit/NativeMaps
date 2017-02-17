@@ -38,7 +38,7 @@ class Library extends Component {
 
   render() {
     return (
-      <View style={styles.modalView}>
+      <View style={styles.container}>
         <TouchableHighlight
           style={styles.openModalButton}
           onPress={this.openModalOnPress}
@@ -54,7 +54,7 @@ class Library extends Component {
           visible={this.state.isModalOpen}
           onRequestClose={this.modalOnRequestClose}
         >
-          <View style={styles.modalView}>
+          <View style={styles.container}>
             <Text>Library</Text>
 
             <TouchableHighlight onPress={this.closeModalOnPress}>
@@ -68,8 +68,15 @@ class Library extends Component {
 }
 
 const styles = StyleSheet.create({
-  modalView: {
-    marginTop: 22
+  container: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginBottom: 22,
   },
   openModalButton: {
     width: 45,

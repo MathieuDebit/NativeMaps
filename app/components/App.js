@@ -6,6 +6,7 @@ import {
   View
 } from 'react-native';
 import Maps from './Maps';
+import User from './User';
 import Library from './Library';
 
 class App extends Component {
@@ -13,6 +14,7 @@ class App extends Component {
     return (
       <View style={styles.container}>
         <Maps />
+        <User />
         <Library />
       </View>
     );
@@ -26,7 +28,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    justifyContent: 'flex-end',
     alignItems: 'center',
   },
 });
