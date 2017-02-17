@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Text, TouchableHighlight, View, StyleSheet } from 'react-native';
+import { View, Modal, Text, TouchableHighlight, StyleSheet } from 'react-native';
 
 class Library extends Component {
   constructor(props) {
@@ -40,10 +40,7 @@ class Library extends Component {
     return (
       <View style={styles.modalView}>
         <TouchableHighlight
-          style={[
-            styles.openModalButton,
-            this.state.isPressed ? styles.openModalButtonPressed : styles.openModalButton
-          ]}
+          style={styles.openModalButton}
           onPress={this.openModalOnPress}
           onPressIn={this.openModalOnPressIn}
           onPressOut={this.openModalOnPressOut}
@@ -75,17 +72,13 @@ const styles = StyleSheet.create({
     marginTop: 22
   },
   openModalButton: {
-    width: 40,
-    height: 40,
-    marginBottom: 20,
+    width: 45,
+    height: 45,
+    marginBottom: 40,
     borderRadius: 50,
     overflow: "hidden",
     backgroundColor: "orange",
   },
-  openModalButtonPressed: {
-    backgroundColor: "tomato",
-  }
 });
-
 
 export default Library;
