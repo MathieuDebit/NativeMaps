@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import MapView from 'react-native-maps';
 import mapStyle from './mapStyle.json';
 
@@ -46,7 +46,9 @@ class Maps extends Component {
               latitude: this.state.lastPosition.coords.latitude,
               longitude: this.state.lastPosition.coords.longitude,
             }}
+            image={require('../../assets/user_marker.png')}
           />
+            <View style={styles.userMarker} />
         </MapView>
       )
     } else {
@@ -62,7 +64,17 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
+  userMarker: {
+    width: 20,
+    height: 20,
+    borderRadius: 100/2,
+    backgroundColor: '#FFFFFF',
+    borderColor: '#0099FF',
+    borderWidth: 4,
+  }
 });
 
 export default Maps;

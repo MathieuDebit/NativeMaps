@@ -45,7 +45,7 @@ class Library extends Component {
           onPressIn={this.openModalOnPressIn}
           onPressOut={this.openModalOnPressOut}
         >
-          <Text></Text>
+          <Text style={styles.buttonText}>+</Text>
         </TouchableHighlight>
 
         <Modal
@@ -79,13 +79,24 @@ const styles = StyleSheet.create({
     marginBottom: 22,
   },
   openModalButton: {
-    width: 45,
-    height: 45,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 60,
+    height: 60,
     marginBottom: 40,
     borderRadius: 50,
     overflow: "hidden",
-    backgroundColor: "orange",
+    backgroundColor: "#FFFFFF",
+    borderColor: "#0099FF",
+    borderWidth: 3,
   },
+  buttonText: {
+    fontSize: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontWeight: '300',
+    color: "#0099FF",
+  }
 });
 
 export default Library;

@@ -31,10 +31,9 @@ const styles = StyleSheet.create({
   userAura: {
     width: 300,
     height: 300,
-    backgroundColor: "rgba(255, 0, 0, .15)",
     borderRadius: 500,
-    borderWidth: 2,
-    borderColor: "tomato",
+    borderWidth: 3,
+    borderColor: "#0099FF",
   }
 });
 

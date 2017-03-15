@@ -15,9 +15,9 @@ class App extends Component {
     return (
       <View style={styles.container}>
         <Maps />
+        {/* <Record /> */}
         <User />
-        <Record />
-        <Library />
+        {/* <Library /> */}
       </View>
     );
   }
