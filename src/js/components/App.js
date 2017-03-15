@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
+  NativeModules,
   StyleSheet,
   Text,
   View
@@ -10,7 +11,28 @@ import User from './User';
 import Record from './Record';
 import Library from './Library';
 
+const AudioModule = NativeModules.AudioModule;
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.init = this.init.bind(this);
+  }
+
+  componentDidMount() {
+    this.init();
+  }
+
+  async init() {
+   try {
+     let init = await AudioModule.init();
+
+   } catch (e) {
+     console.error(e);
+   }
+ }
+
   render() {
     return (
       <View style={styles.container}>
