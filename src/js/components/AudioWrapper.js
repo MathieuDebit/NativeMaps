@@ -70,28 +70,28 @@ export default class AudioWrapper extends Component {
               />
 
               <TouchableHighlight
-                style={styles.button}
+                style={[styles.button, styles.button1]}
                 onPress={() => AudioModule.toggleSample(1)}
               >
                 <Text></Text>
               </TouchableHighlight>
 
               <TouchableHighlight
-                style={styles.button}
+                style={[styles.button, styles.button2]}
                 onPress={() => AudioModule.toggleSample(2)}
               >
                 <Text></Text>
               </TouchableHighlight>
 
               <TouchableHighlight
-                style={styles.button}
+                style={[styles.button, styles.button3]}
                 onPress={() => AudioModule.toggleSample(3)}
               >
                 <Text></Text>
               </TouchableHighlight>
 
               <TouchableHighlight
-                style={styles.button}
+                style={[styles.button, styles.button4]}
                 onPress={() => AudioModule.toggleSample(4)}
               >
                 <Text></Text>
@@ -115,10 +115,15 @@ const styles = StyleSheet.create({
     width: 270,
   },
   button: {
+    position: 'absolute',
     width: 15,
     height: 15,
     borderRadius: 50,
-    overflow: "hidden",
-    backgroundColor: 'tomato',
+    overflow: 'hidden',
+    backgroundColor: '#0099FF',
   },
+  button1: { top: -50, left: -40 },
+  button2: { top:  40, left: -20 },
+  button3: { top: -70, left: 50 },
+  button4: { top: 100, left: 70 },
 });
