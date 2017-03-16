@@ -18,10 +18,10 @@ static const float headroom = powf(10.0f, -HEADROOM_DECIBEL * 0.025);
 
 
 @implementation AudioModule {
-  SuperpoweredAdvancedAudioPlayer *sampleKick, *sampleLead, *sampleBass, *sampleRimshot;
+  SuperpoweredAdvancedAudioPlayer *sampleKick, *sampleLead, *sampleBass, *sampleRimshot, *sampleWhell, *sampleWood, *sampleWood2;
   SuperpoweredIOSAudioIO *output;
   unsigned char activeFx;
-  float *stereoBuffer, crossValue, volKick, volLead, volBass, volRimshot;
+  float *stereoBuffer, crossValue, volKick, volLead, volBass, volRimshot, volWhell, volWood, volWood2;
   unsigned int lastSamplerate;
 }
 
@@ -57,6 +57,30 @@ void playerEventCallbackD(void *clientData, SuperpoweredAdvancedAudioPlayerEvent
   };
 }
 
+void playerEventCallbackE(void *clientData, SuperpoweredAdvancedAudioPlayerEvent event, void *value) {
+  if (event == SuperpoweredAdvancedAudioPlayerEvent_LoadSuccess) {
+    AudioModule *self = (__bridge AudioModule *)clientData;
+    self->sampleWhell->setBpm(123.0f);
+    self->sampleWhell->setPosition(self->sampleWhell->firstBeatMs, false, false);
+  };
+}
+
+void playerEventCallbackF(void *clientData, SuperpoweredAdvancedAudioPlayerEvent event, void *value) {
+  if (event == SuperpoweredAdvancedAudioPlayerEvent_LoadSuccess) {
+    AudioModule *self = (__bridge AudioModule *)clientData;
+    self->sampleWood->setBpm(123.0f);
+    self->sampleWood->setPosition(self->sampleWhell->firstBeatMs, false, false);
+  };
+}
+
+void playerEventCallbackG(void *clientData, SuperpoweredAdvancedAudioPlayerEvent event, void *value) {
+  if (event == SuperpoweredAdvancedAudioPlayerEvent_LoadSuccess) {
+    AudioModule *self = (__bridge AudioModule *)clientData;
+    self->sampleWood2->setBpm(123.0f);
+    self->sampleWood2->setPosition(self->sampleWhell->firstBeatMs, false, false);
+  };
+}
+
 
 static bool audioProcessing(void *clientdata, float **buffers, unsigned int inputChannels, unsigned int outputChannels, unsigned int numberOfSamples, unsigned int samplerate, uint64_t hostTime)
 {
@@ -68,6 +92,9 @@ static bool audioProcessing(void *clientdata, float **buffers, unsigned int inpu
     self->sampleLead->setSamplerate(samplerate);
     self->sampleBass->setSamplerate(samplerate);
     self->sampleRimshot->setSamplerate(samplerate);
+    self->sampleWhell->setSamplerate(samplerate);
+    self->sampleWood->setSamplerate(samplerate);
+    self->sampleWood2->setSamplerate(samplerate);
   };
   
   bool masterIsA = (self->crossValue <= 0.5f);
@@ -84,6 +111,12 @@ static bool audioProcessing(void *clientdata, float **buffers, unsigned int inpu
   
   if (self->sampleRimshot->process(self->stereoBuffer, !silence, numberOfSamples, self->volRimshot, masterBpm, msElapsedSinceLastBeatA)) silence = false;
   
+  if (self->sampleWhell->process(self->stereoBuffer, !silence, numberOfSamples, self->volWhell, masterBpm, msElapsedSinceLastBeatA)) silence = false;
+  
+  if (self->sampleWood->process(self->stereoBuffer, !silence, numberOfSamples, self->volWood, masterBpm, msElapsedSinceLastBeatA)) silence = false;
+  
+  if (self->sampleWood2->process(self->stereoBuffer, !silence, numberOfSamples, self->volWood2, masterBpm, msElapsedSinceLastBeatA)) silence = false;
+  
   if (!silence) SuperpoweredDeInterleave(self->stereoBuffer, buffers[0], buffers[1], numberOfSamples);
  
   return !silence;
@@ -95,7 +128,7 @@ RCT_REMAP_METHOD(init,
 {
   lastSamplerate = activeFx = 0;
   crossValue = 0.0f;
-  volKick = volLead = volBass = volRimshot = 0.0f;
+  volKick = volLead = volBass = volRimshot = volWhell = volWood = volWood2 = 0.0f;
   if (posix_memalign((void **)&stereoBuffer, 16, 4096 + 128) != 0) abort(); // Allocating memory, aligned to 16.
   
   sampleKick = new SuperpoweredAdvancedAudioPlayer((__bridge void *)self, playerEventCallbackA, 44100, 0);
@@ -110,9 +143,18 @@ RCT_REMAP_METHOD(init,
   sampleRimshot = new SuperpoweredAdvancedAudioPlayer((__bridge void *)self, playerEventCallbackD, 44100, 0);
   sampleRimshot->open([[[NSBundle mainBundle] pathForResource:@"samples/rimshot" ofType:@"wav"] fileSystemRepresentation]);
   
-  sampleKick->syncMode = sampleLead->syncMode = sampleBass->syncMode = sampleRimshot->syncMode = SuperpoweredAdvancedAudioPlayerSyncMode_TempoAndBeat;
+  sampleWhell = new SuperpoweredAdvancedAudioPlayer((__bridge void *)self, playerEventCallbackE, 44100, 0);
+  sampleWhell->open([[[NSBundle mainBundle] pathForResource:@"samples/whell" ofType:@"wav"] fileSystemRepresentation]);
   
-  output = [[SuperpoweredIOSAudioIO alloc] initWithDelegate:(id<SuperpoweredIOSAudioIODelegate>)self preferredBufferSize:12 preferredMinimumSamplerate:44100 audioSessionCategory:AVAudioSessionCategoryPlayback channels:3 audioProcessingCallback:audioProcessing clientdata:(__bridge void *)self];
+  sampleWood = new SuperpoweredAdvancedAudioPlayer((__bridge void *)self, playerEventCallbackF, 44100, 0);
+  sampleWood->open([[[NSBundle mainBundle] pathForResource:@"samples/wood" ofType:@"wav"] fileSystemRepresentation]);
+  
+  sampleWood2 = new SuperpoweredAdvancedAudioPlayer((__bridge void *)self, playerEventCallbackG, 44100, 0);
+  sampleWood2->open([[[NSBundle mainBundle] pathForResource:@"samples/wood2" ofType:@"wav"] fileSystemRepresentation]);
+  
+  sampleKick->syncMode = sampleLead->syncMode = sampleBass->syncMode = sampleRimshot->syncMode = sampleWhell->syncMode = sampleWood->syncMode = sampleWood2->syncMode = SuperpoweredAdvancedAudioPlayerSyncMode_TempoAndBeat;
+  
+  output = [[SuperpoweredIOSAudioIO alloc] initWithDelegate:(id<SuperpoweredIOSAudioIODelegate>)self preferredBufferSize:12 preferredMinimumSamplerate:44100 audioSessionCategory:AVAudioSessionCategoryPlayback channels:2 audioProcessingCallback:audioProcessing clientdata:(__bridge void *)self];
   
   if (output) {
     [output start];
@@ -133,6 +175,9 @@ RCT_REMAP_METHOD(playPause,
     sampleLead->pause();
     sampleBass->pause();
     sampleRimshot->pause();
+    sampleWhell->pause();
+    sampleWood->pause();
+    sampleWood2->pause();
     isPlaying = true;
   } else {
     bool masterIsA = (crossValue <= 0.5f);
@@ -140,6 +185,9 @@ RCT_REMAP_METHOD(playPause,
     sampleLead->play(masterIsA);
     sampleBass->play(masterIsA);
     sampleRimshot->play(masterIsA);
+    sampleWhell->play(masterIsA);
+    sampleWood->play(masterIsA);
+    sampleWood2->play(masterIsA);
     isPlaying = true;
   };
   
@@ -181,6 +229,27 @@ RCT_EXPORT_METHOD(toggleSample:(NSInteger)sampleId)
         volRimshot = 1.0f * headroom;
       };
       break;
+    case 5:
+      if (volWhell == 1.0f * headroom) {
+        volWhell = 0;
+      } else {
+        volWhell = 1.0f * headroom;
+      };
+      break;
+    case 6:
+      if (volWood == 1.0f * headroom) {
+        volWood = 0;
+      } else {
+        volWood = 1.0f * headroom;
+      };
+      break;
+    case 7:
+      if (volWood2 == 1.0f * headroom) {
+        volWood2 = 0;
+      } else {
+        volWood2 = 1.0f * headroom;
+      };
+      break;
     default:
       break;
   };
@@ -189,6 +258,11 @@ RCT_EXPORT_METHOD(toggleSample:(NSInteger)sampleId)
 - (void)dealloc {
   delete sampleKick;
   delete sampleLead;
+  delete sampleBass;
+  delete sampleRimshot;
+  delete sampleWhell;
+  delete sampleWood;
+  delete sampleWood2;
   free(stereoBuffer);
 #if !__has_feature(objc_arc)
   [output release];
@@ -204,6 +278,10 @@ RCT_EXPORT_METHOD(toggleSample:(NSInteger)sampleId)
   sampleKick->onMediaserverInterrupt();
   sampleLead->onMediaserverInterrupt();
   sampleBass->onMediaserverInterrupt();
+  sampleRimshot->onMediaserverInterrupt();
+  sampleWhell->onMediaserverInterrupt();
+  sampleWood->onMediaserverInterrupt();
+  sampleWood2->onMediaserverInterrupt();
 }
 
 //static inline float floatToFrequency(float value) {
