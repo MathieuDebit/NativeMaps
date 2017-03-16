@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import {
-  AppRegistry,
-  NativeModules,
   StyleSheet,
   Text,
   View
@@ -10,35 +8,16 @@ import Maps from './Maps';
 import User from './User';
 import Record from './Record';
 import Library from './Library';
-
-const AudioModule = NativeModules.AudioModule;
+import AudioWrapper from './AudioWrapper';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.init = this.init.bind(this);
-  }
-
-  componentDidMount() {
-    this.init();
-  }
-
-  async init() {
-   try {
-     let init = await AudioModule.init();
-
-   } catch (e) {
-     console.error(e);
-   }
- }
-
   render() {
     return (
       <View style={styles.container}>
         <Maps />
         {/* <Record /> */}
         <User />
+        <AudioWrapper />
         {/* <Library /> */}
       </View>
     );

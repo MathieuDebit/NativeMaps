@@ -48,7 +48,6 @@ class Maps extends Component {
             }}
             image={require('../../assets/user_marker.png')}
           />
-            <View style={styles.userMarker} />
         </MapView>
       )
     } else {
