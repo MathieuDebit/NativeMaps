@@ -73,28 +73,28 @@ export default class AudioWrapper extends Component {
                 style={[styles.button, styles.button1]}
                 onPress={() => AudioModule.toggleSample(1)}
               >
-                <Text></Text>
+                <Text>1</Text>
               </TouchableHighlight>
 
               <TouchableHighlight
                 style={[styles.button, styles.button2]}
                 onPress={() => AudioModule.toggleSample(2)}
               >
-                <Text></Text>
+                <Text>2</Text>
               </TouchableHighlight>
 
               <TouchableHighlight
                 style={[styles.button, styles.button3]}
                 onPress={() => AudioModule.toggleSample(3)}
               >
-                <Text></Text>
+                <Text>3</Text>
               </TouchableHighlight>
 
               <TouchableHighlight
                 style={[styles.button, styles.button4]}
                 onPress={() => AudioModule.toggleSample(4)}
               >
-                <Text></Text>
+                <Text>4</Text>
               </TouchableHighlight>
             </View>
         }
