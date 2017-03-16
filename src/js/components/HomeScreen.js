@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   Button,
+  TouchableHighlight,
   View
 } from 'react-native';
 import Maps from './Maps';
@@ -15,13 +16,14 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>yo</Text>
+        <Text>Artiste de la semaine</Text>
 
-        <Button
+        <TouchableHighlight
           style={styles.button}
           onPress={this.props.startMap}
-          title="démarrer l'expérience"
-        />
+        >
+          <Text style={styles.buttonText}>Commencer</Text>
+        </TouchableHighlight>
       </View>
     );
   }
@@ -38,4 +40,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#FFFFFF',
   },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 30,
+    width: 200,
+    height: 50,
+    borderRadius: 50,
+    backgroundColor: "#FFFFFF",
+    borderColor: "#0099FF",
+    borderWidth: 3,
+    shadowColor: "#000000",
+    shadowOpacity: 0.16,
+    shadowRadius: 3,
+    shadowOffset: {
+      height: 3,
+      width: 0
+    }
+  },
+  buttonText: {
+    color: "#0099FF",
+    fontSize: 17,
+  }
 });
